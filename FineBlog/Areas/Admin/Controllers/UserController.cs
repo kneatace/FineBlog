@@ -82,7 +82,7 @@ namespace FineBlog.Areas.Admin.Controllers
             var result = await _userManager.ResetPasswordAsync(existingUser, token, vm.NewPassword);
             if (result.Succeeded)
             {
-                _notification.Success("Password reset succuful");
+                _notification.Success("Password reset succesful");
                 return RedirectToAction(nameof(Index));
             }
             return View(vm);
