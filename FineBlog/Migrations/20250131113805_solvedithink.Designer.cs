@@ -4,6 +4,7 @@ using FineBlog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FineBlog.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250131113805_solvedithink")]
+    partial class solvedithink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,21 +190,6 @@ namespace FineBlog.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("FineBlog.Models.PostTag", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PostTags");
                 });
 
             modelBuilder.Entity("FineBlog.Models.Setting", b =>
@@ -387,6 +375,21 @@ namespace FineBlog.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PostTag", b =>
+                {
+                    b.Property<int>("PostsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("PostTags", (string)null);
+                });
+
             modelBuilder.Entity("Comment", b =>
                 {
                     b.HasOne("FineBlog.Models.Post", "Post")
@@ -406,25 +409,6 @@ namespace FineBlog.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("FineBlog.Models.PostTag", b =>
-                {
-                    b.HasOne("FineBlog.Models.Post", "Post")
-                        .WithMany("PostTags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FineBlog.Models.Tag", "Tag")
-                        .WithMany("PostTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -478,6 +462,21 @@ namespace FineBlog.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PostTag", b =>
+                {
+                    b.HasOne("FineBlog.Models.Post", null)
+                        .WithMany()
+                        .HasForeignKey("PostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FineBlog.Models.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FineBlog.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Posts");
@@ -486,13 +485,6 @@ namespace FineBlog.Migrations
             modelBuilder.Entity("FineBlog.Models.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("PostTags");
-                });
-
-            modelBuilder.Entity("FineBlog.Models.Tag", b =>
-                {
-                    b.Navigation("PostTags");
                 });
 #pragma warning restore 612, 618
         }

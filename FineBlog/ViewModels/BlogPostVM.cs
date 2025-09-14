@@ -1,4 +1,6 @@
-﻿namespace FineBlog.ViewModels
+﻿using FineBlog.Models;
+
+namespace FineBlog.ViewModels
 {
     public class BlogPostVM
     {
@@ -9,5 +11,10 @@
         public string? ThumbnailUrl { get; set; }
         public string? ShortDescription { get; set; }
         public string? Description { get; set; }
+
+        // New properties
+        public List<Comment> Comments { get; set; } = new();
+        public List<Tag> Tags { get; set; } = new();
     }
 }
+

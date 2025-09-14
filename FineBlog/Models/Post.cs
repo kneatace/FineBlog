@@ -1,4 +1,6 @@
-﻿namespace FineBlog.Models
+﻿using Azure;
+
+namespace FineBlog.Models
 {
     public class Post
     {
@@ -12,5 +14,8 @@
         public string? Description { get; set; }
         public string? Slug { get; set; }
         public string? ThumbnailUrl { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>(); // One-to-many
+        public ICollection<PostTag> PostTags { get; set; } = new List<PostTag>();
     }
 }

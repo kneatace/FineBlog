@@ -12,37 +12,44 @@
         </div>
         <div class="card-body">
             <form asp-action="Create" asp-controller="Post" asp-area="Admin" enctype="multipart/form-data">
-
                 <div class="row mb-2">
                     <div class="col-9">
-                    <div class="mb-2">
-                        <label>Title</label>
-                        <input type="text" asp-for="Title" class="form-control" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
+                        <div class="mb-2">
+                            <label>Title</label>
+                            <input type="text" asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="mb-2">
+                            <label>Short Description</label>
+                            <input type="text" asp-for="ShortDescription" class="form-control" />
+                            <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                        </div>
+                        <div class="mb-2">
+                            <label>Description</label>
+                            <textarea id="richEditor" asp-for="Description" class="form-control" rows="8"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- 🔹 New: Tags Input Field -->
+                        <div class="mb-2">
+                            <label>Tags (Comma Separated)</label>
+                            <input type="text" asp-for="TagInput" class="form-control" placeholder="e.g., Cars, Bikes, Nepal" />
+                            <span asp-validation-for="TagInput" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <label>Short Description</label>
-                        <input type="text" asp-for="ShortDescription" class="form-control" />
-                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
-                    </div>
-                    <div class="mb-2">
-                        <label>Description</label>
-                         <textarea id="richEditor" asp-for="Description" class="form-control" rows="8"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="mb-2">
+
+                    <div class="col-3">
+                        <div class="mb-2">
                             <img src="~/thumbnails/default_image.png" class="img-fluid" id="thumbnail" />
-                    </div>
-                    <div class="mb-2">
-                        <label>Thumbnail</label>
-                        <input type="file" asp-for="Thumbnail" class="custom-file"/>
-                        <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="mb-2">
+                            <label>Thumbnail</label>
+                            <input type="file" asp-for="Thumbnail" class="custom-file" />
+                            <span asp-validation-for="Thumbnail" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                </div>
-                
+
                 <div class="mb-2">
                     <button type="submit" class="btn btn-primary w-100">Save</button>
                 </div>
@@ -51,13 +58,13 @@
     </div>
 </div>
 
-@section Scripts{
-    <partial name="_ValidationScriptsPartial"/>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(".custom-file").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0])
+            document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0]);
         });
     </script>
 }
