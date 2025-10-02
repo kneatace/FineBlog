@@ -54,21 +54,21 @@ namespace FineBlog.Controllers
             if (comment == null)
             {
                 _notification.Error("Comment not found!");
-                return RedirectToAction("Post", "Blog", new { id = comment.PostId });
+                return RedirectToPost(comment.PostId);
             }
 
             // Check if the logged-in user is the comment's author or an admin
             if (User.Identity.Name != comment.AuthorName && !User.IsInRole("Admin"))
             {
                 _notification.Error("You are not authorized to delete this comment.");
-                return RedirectToAction("Post", "Blog", new { id = comment.PostId });
+                return RedirectToPost(comment.PostId);
             }
 
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             _notification.Success("Comment deleted successfully!");
-            return RedirectToAction("Post", "Blog", new { id = comment.PostId });
+            return RedirectToPost(comment.PostId);
         }
 
         private IActionResult RedirectToPost(int postId)

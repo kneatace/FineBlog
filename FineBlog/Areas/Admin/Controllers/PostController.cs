@@ -88,7 +88,7 @@ namespace FineBlog.Areas.Admin.Controllers
 
             if (vm.Thumbnail != null)
             {
-                post.ThumbnailUrl = UploadImage(vm.Thumbnail);
+                post.ThumbnailUrl = UploadThumbnail(vm.Thumbnail);
             }
 
             await _context.Posts.AddAsync(post);
@@ -204,7 +204,7 @@ namespace FineBlog.Areas.Admin.Controllers
 
             if (vm.Thumbnail != null)
             {
-                post.ThumbnailUrl = UploadImage(vm.Thumbnail);
+                post.ThumbnailUrl = UploadThumbnail(vm.Thumbnail);
             }
 
             // ✅ Update tags
@@ -230,10 +230,47 @@ namespace FineBlog.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        private string UploadImage(IFormFile file)
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return Json(new { error = "No file uploaded" });
+
+            try
+            {
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "content-images");
+
+                // Create directory if it doesn't exist
+                Directory.CreateDirectory(uploadsFolder);
+
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var imageUrl = $"/content-images/{uniqueFileName}";
+                return Json(new { location = imageUrl });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
+
+        // For post thumbnail uploads
+        private string UploadThumbnail(IFormFile file)
         {
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "thumbnails", uniqueFileName);
+            var thumbnailsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "thumbnails");
+
+            // Create directory if it doesn't exist
+            Directory.CreateDirectory(thumbnailsFolder);
+
+            var filePath = Path.Combine(thumbnailsFolder, uniqueFileName);
+
             using (FileStream fileStream = System.IO.File.Create(filePath))
             {
                 file.CopyTo(fileStream);

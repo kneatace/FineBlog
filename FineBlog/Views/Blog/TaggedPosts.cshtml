@@ -1,0 +1,56 @@
+﻿@model List<FineBlog.Models.Post>
+
+@{
+    ViewData["Title"] = $"Posts tagged with '{ViewBag.FilterValue}'";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="mb-4">Posts tagged with: <span class="text-primary">"@ViewBag.FilterValue"</span></h2>
+
+            @if (Model.Any())
+            {
+                foreach (var post in Model)
+                {
+                    <div class="card mb-4">
+                        @if (!string.IsNullOrEmpty(post.ThumbnailUrl))
+                        {
+                            <img src="~/thumbnails/@post.ThumbnailUrl" class="card-img-top" alt="@post.Title" style="height: 300px; object-fit: cover;">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@post.Title</h5>
+                            <p class="card-text">@post.ShortDescription</p>
+                            <div class="mb-3">
+                                @foreach (var postTag in post.PostTags)
+                                {
+                                    <a asp-controller="Blog" asp-action="Index" asp-route-tag="@postTag.Tag.Name"
+                                       class="badge bg-primary text-decoration-none me-1">@postTag.Tag.Name</a>
+                                }
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    By @post.ApplicationUser?.FirstName @post.ApplicationUser?.LastName |
+                                    @post.CreatedDate.ToShortDateString()
+                                </small>
+                                <a asp-controller="Blog" asp-action="Post" asp-route-slug="@post.Slug"
+                                   class="btn btn-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <h4>No posts found</h4>
+                    <p>No posts found with the tag: <strong>@ViewBag.FilterValue</strong></p>
+                </div>
+            }
+
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to All Posts
+            </a>
+        </div>
+    </div>
+</div>

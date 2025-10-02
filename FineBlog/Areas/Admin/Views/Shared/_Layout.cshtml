@@ -164,7 +164,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Fine Blog 2025</span>
+                        <span>Copyright &copy; Fine Blog @DateTime.Now.Year</span>
                     </div>
                 </div>
             </footer>
@@ -208,6 +208,37 @@
             selector: '#richEditor',
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+
+            // ✅ ADD IMAGE UPLOAD CONFIGURATION HERE
+            images_upload_url: '/Admin/Post/UploadImage',
+            automatic_uploads: true,
+            images_reuse_filename: true,
+            file_picker_types: 'image',
+
+            images_upload_handler: function (blobInfo, progress) {
+                return new Promise(function (resolve, reject) {
+                    var formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                    fetch('/Admin/Post/UploadImage', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.location) {
+                            resolve(data.location);
+                        } else {
+                            reject('Upload failed: ' + (data.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => reject('Upload failed: ' + error));
+                });
+            }
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

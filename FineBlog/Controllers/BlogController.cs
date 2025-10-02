@@ -24,21 +24,20 @@ namespace FineBlog.Controllers
             if (string.IsNullOrEmpty(slug))
             {
                 _notification.Error("Post not found");
-                return NotFound(); // Return 404 instead of an empty view
+                return NotFound();
             }
 
-            // ✅ Fetch Post with related data: User, Comments, and Tags
             var post = _context.Posts!
-                .Include(p => p.ApplicationUser) // Fetch author details
-                .Include(p => p.Comments) // Fetch comments
-                .Include(p => p.PostTags) // Fetch related PostTags
-                    .ThenInclude(pt => pt.Tag) // Fetch associated Tags
+                .Include(p => p.ApplicationUser)
+                .Include(p => p.Comments)
+                .Include(p => p.PostTags)
+                    .ThenInclude(pt => pt.Tag)
                 .FirstOrDefault(p => p.Slug == slug);
 
             if (post == null)
             {
                 _notification.Error("Post not found");
-                return NotFound(); // Return 404 if post doesn't exist
+                return NotFound();
             }
 
             var vm = new BlogPostVM()
@@ -53,10 +52,39 @@ namespace FineBlog.Controllers
                 Description = post.Description,
                 ShortDescription = post.ShortDescription,
                 Comments = post.Comments.ToList(),
-                Tags = post.PostTags.Select(pt => pt.Tag).ToList() // ✅ Fetch Tags correctly
+                Tags = post.PostTags.Select(pt => pt.Tag).ToList()
             };
 
             return View(vm);
+        }
+
+        // Tag filtering action
+        public IActionResult Index(string tag)
+        {
+            if (!string.IsNullOrEmpty(tag))
+            {
+                // Filter posts by tag
+                var posts = _context.Posts!
+                    .Where(p => p.IsPublished && p.PostTags.Any(pt => pt.Tag != null && pt.Tag.Name == tag))
+                    .Include(p => p.ApplicationUser)
+                    .Include(p => p.PostTags)
+                        .ThenInclude(pt => pt.Tag)
+                    .OrderByDescending(p => p.CreatedDate)
+                    .ToList();
+
+                if (!posts.Any())
+                {
+                    _notification.Warning($"No posts found with tag: {tag}");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ViewBag.FilterType = "tag";
+                ViewBag.FilterValue = tag;
+                return View("TaggedPosts", posts);
+            }
+
+            // If no tag provided, redirect to home
+            return RedirectToAction("Index", "Home");
         }
     }
 }
