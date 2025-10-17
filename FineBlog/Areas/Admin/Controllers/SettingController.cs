@@ -39,7 +39,7 @@ namespace FineBlog.Areas.Admin.Controllers
                     Title = settings[0].Title,
                     ShortDescription = settings[0].ShortDescription,
                     ThumbnailUrl = settings[0].ThumbnailUrl,
-                    FacebookUrl = settings[0].FacebookUrl,
+                    InstagramUrl = settings[0].InstagramUrl,
                     GithubUrl = settings[0].GithubUrl,
                     TwitterUrl = settings[0].TwitterUrl,
                 };
@@ -59,7 +59,7 @@ namespace FineBlog.Areas.Admin.Controllers
                 Title = createdSettings[0].Title,
                 ShortDescription = createdSettings[0].ShortDescription,
                 ThumbnailUrl = createdSettings[0].ThumbnailUrl,
-                FacebookUrl = createdSettings[0].FacebookUrl,
+                InstagramUrl = createdSettings[0].InstagramUrl,
                 GithubUrl = createdSettings[0].GithubUrl,
                 TwitterUrl = createdSettings[0].TwitterUrl,
             };
@@ -79,7 +79,7 @@ namespace FineBlog.Areas.Admin.Controllers
             setting.SiteName = vm.SiteName;
             setting.Title = vm.Title;
             setting.ShortDescription = vm.ShortDescription;
-            setting.FacebookUrl= vm.FacebookUrl;
+            setting.InstagramUrl= vm.InstagramUrl;
             setting.GithubUrl= vm.GithubUrl;
             setting.TwitterUrl= vm.TwitterUrl;
 

@@ -3,53 +3,121 @@
 @{
     Layout = "_LoginLayout";
     ViewData["Title"] = "Login";
-} 
+}
 
-<!-- Outer Row -->
-<div class="row justify-content-center">
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        background-color: #313639 !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-    <div class="col-xl-10 col-lg-12 col-md-9">
+    .custom-login-bg {
+        background-color: #313639; /* your desired color */
+        background-image: none; /* remove gradient from SB Admin 2 */
+        min-height: 100vh; /* make sure it fills the full screen */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                    <div class="col-lg-6">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                            </div>
-                            <form class="user" method="post" asp-action="Login">
-                                <div class="form-group">
-                                    <input asp-for="Username" type="text" class="form-control form-control-user"
-                                           id="exampleInputEmail" aria-describedby="emailHelp"
-                                           placeholder="Enter Username...">
-                                      <span asp-validation-for="Username" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input asp-for="Password" type="password" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="Password">
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox small">
-                                        <input asp-for="RememberMe" type="checkbox" class="custom-control-input" id="customCheck">
-                                        <label class="custom-control-label" for="customCheck">
-                                            Remember
-                                            Me
-                                        </label>
-                                    </div>
-                                </div>
-                                <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
-                                
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .login-card {
+        background: #ffffff; /* White card */
+        border-radius: 1rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        max-width: 400px;
+        width: 100%;
+        padding: 2.5rem;
+        color: #333;
+    }
+
+        .login-card h1 {
+            color: #4169e1; /* Royal blue heading to match bg */
+        }
+
+    .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #ccc;
+    }
+
+        .form-control:focus {
+            border-color: #4169e1;
+            box-shadow: none;
+        }
+
+    .btn-primary {
+        background-color: #4169e1;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 0.5rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #3654b0;
+        }
+
+    .form-check-label {
+        color: #555;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <h1 class="h3 fw-bold">Welcome Back!</h1>
+            <p class="text-muted">Login to your account</p>
         </div>
 
-    </div>
+        <form method="post" asp-action="Login">
+            <div class="form-floating mb-3">
+                <input asp-for="Username" type="text" class="form-control" id="username" placeholder="Username">
+                <label for="username">Username</label>
+                <span asp-validation-for="Username" class="text-danger small"></span>
+            </div>
 
+            <div class="form-floating mb-3">
+                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Password">
+                <label for="password">Password</label>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+        </form>
+
+        <hr class="my-4" style="border-color: #ccc;">
+
+        <div class="text-center">
+            <a href="#" class="small" style="color:#4169e1;">Forgot Password?</a>
+        </div>
+        <div class="text-center mt-2">
+            <span class="small text-muted">Don't have an account? <a href="#" style="color:#4169e1;">Sign Up</a></span>
+        </div>
+    </div>
 </div>

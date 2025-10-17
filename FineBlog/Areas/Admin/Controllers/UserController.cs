@@ -78,6 +78,22 @@ namespace FineBlog.Areas.Admin.Controllers
                 _notification.Error("User doesnot exist");
                 return View(vm);
             }
+
+            // Test password requirements
+            var passwordValidator = _userManager.PasswordValidators.FirstOrDefault();
+            if (passwordValidator != null)
+            {
+                var validationResult = await passwordValidator.ValidateAsync(_userManager, existingUser, vm.NewPassword!);
+                if (!validationResult.Succeeded)
+                {
+                    foreach (var error in validationResult.Errors)
+                    {
+                        _notification.Error($"Password requirement: {error.Description}");
+                    }
+                    return View(vm);
+                }
+            }
+
             var token = await _userManager.GeneratePasswordResetTokenAsync(existingUser);
             var result = await _userManager.ResetPasswordAsync(existingUser, token, vm.NewPassword);
             if (result.Succeeded)
@@ -85,7 +101,14 @@ namespace FineBlog.Areas.Admin.Controllers
                 _notification.Success("Password reset succesful");
                 return RedirectToAction(nameof(Index));
             }
-            return View(vm);
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    _notification.Error(error.Description);
+                }
+                return View(vm);
+            }
         }
 
 

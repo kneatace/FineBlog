@@ -51,7 +51,7 @@ namespace FineBlog.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("FineBlog.Models.ApplicationUser", b =>
@@ -150,7 +150,7 @@ namespace FineBlog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pages");
+                    b.ToTable("Pages", (string)null);
                 });
 
             modelBuilder.Entity("FineBlog.Models.Post", b =>
@@ -189,7 +189,7 @@ namespace FineBlog.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("FineBlog.Models.PostTag", b =>
@@ -204,7 +204,7 @@ namespace FineBlog.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("PostTags");
+                    b.ToTable("PostTags", (string)null);
                 });
 
             modelBuilder.Entity("FineBlog.Models.Setting", b =>
@@ -238,7 +238,7 @@ namespace FineBlog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("FineBlog.Models.Tag", b =>
@@ -254,7 +254,7 @@ namespace FineBlog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

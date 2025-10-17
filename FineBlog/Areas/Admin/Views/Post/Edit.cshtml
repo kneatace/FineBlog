@@ -31,6 +31,12 @@
                             <textarea id="richEditor" asp-for="Description" class="form-control" rows="8"></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
+                        <!-- 🔹 New: Tags Input Field -->
+                        <div class="mb-2">
+                            <label>Tags (Comma Separated)</label>
+                            <input type="text" asp-for="TagInput" class="form-control" placeholder="e.g., Cars, Bikes, Nepal" />
+                            <span asp-validation-for="TagInput" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="col-3">
                         <div class="mb-2">

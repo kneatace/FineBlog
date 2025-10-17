@@ -66,5 +66,10 @@
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
             document.getElementById('thumbnail').src = window.URL.createObjectURL(this.files[0]);
         });
+
+         // 🔹 Ensure TinyMCE content syncs on submit
+        $("form").on("submit", function () {
+            tinymce.triggerSave();
+        });
     </script>
 }
