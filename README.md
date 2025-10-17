@@ -36,7 +36,7 @@ Update database via dotnet cli
 Start/run the project
 
 ```bash
-  dotnet watch
+  dotnet run
 ```
 
 Build the project
