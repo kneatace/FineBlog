@@ -12,10 +12,7 @@ Beautiful blog website made on .Net Core MVC and SQL Server.
 
 ## Run Locally
 
-Clone the project
-
-```bash
-  git clone https://github.com/bichitra-linux/ASP.NET-Blog.git
+Clone the project using git clone
 
 Go to the project directory
 
